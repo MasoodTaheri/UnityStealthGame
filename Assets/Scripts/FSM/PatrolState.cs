@@ -5,34 +5,32 @@ namespace Assets.Scripts.FSM
 {
     public class PatrolState : Istate
     {
+        public string Name => _name;
+
         private Enemy _enemy;
-        private IPatrolOnNode _PatrolOnNodes;
+        private IPatrolOnNode _patrolOnNodes;
+        private string _name;
 
         public PatrolState(Enemy enemy, IPatrolOnNode patrolOnNode)
         {
             _enemy = enemy;
-            _PatrolOnNodes = patrolOnNode;
+            _patrolOnNodes = patrolOnNode;
             _name = "PatrolState";
         }
-        private string _name;
-        public string Name => _name;
 
         public void Enter()
         {
-            Debug.Log("PatrolState Enter");
-
-            _PatrolOnNodes.Initialize();
+            _patrolOnNodes.Initialize();
         }
 
         public void Exit()
         {
-            Debug.Log("PatrolState Exit");
+
         }
 
         public void Update()
         {
-            //Debug.Log("PatrolState Update");
-            _PatrolOnNodes.UpdatePatrol();
+            _patrolOnNodes.UpdatePatrol();
             if (_enemy.playerDetection())
             {
                 _enemy.StateController.TransitionTo(_enemy.StateController.ChaseState);

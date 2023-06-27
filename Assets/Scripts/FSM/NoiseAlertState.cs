@@ -5,12 +5,12 @@ namespace Assets.Scripts.FSM
 {
     public class NoiseAlertState : Istate
     {
+        public string Name => _name;
+
         private Enemy _enemy;
         private string _name;
-
-        public float DistanceToNoisePosition;
-        public float minDistance = 2;
-        public string Name => _name;
+        private float _distanceToNoisePosition;
+        private float _minDistance = 2;
 
         public NoiseAlertState(Enemy enemy)
         {
@@ -20,7 +20,6 @@ namespace Assets.Scripts.FSM
 
         public void Enter()
         {
-
             _enemy.NavMeshAgent.destination = _enemy.AlertPosition;
         }
 
@@ -35,8 +34,8 @@ namespace Assets.Scripts.FSM
             {
                 _enemy.StateController.TransitionTo(_enemy.StateController.ChaseState);
             }
-            DistanceToNoisePosition = Vector3.Distance(_enemy.transform.position, _enemy.AlertPosition);
-            if (DistanceToNoisePosition < minDistance)
+            _distanceToNoisePosition = Vector3.Distance(_enemy.transform.position, _enemy.AlertPosition);
+            if (_distanceToNoisePosition < _minDistance)
             {
                 _enemy.StateController.TransitionTo(_enemy.StateController.PartolState);
             }

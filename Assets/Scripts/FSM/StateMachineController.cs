@@ -10,15 +10,14 @@ namespace Assets.Scripts.FSM
     [Serializable]
     public class StateMachineController
     {
-        [SerializeField]
-        public Istate CurrentState { get; private set; }
 
         public StartState StartState;
         public PatrolState PartolState;
         public ChaseState ChaseState;
         public NoiseAlertState NoiseAlertState;
+        [SerializeField] public Istate CurrentState { get; private set; }
 
-        public event Action<Istate> StateChanged;
+
 
         public StateMachineController(Enemy enemy, PatrolingOnNodes patrolingOnNodes)
         {
@@ -26,27 +25,19 @@ namespace Assets.Scripts.FSM
             StartState = new StartState(enemy);
             ChaseState = new ChaseState(enemy);
             NoiseAlertState = new NoiseAlertState(enemy);
-
-            //Debug.Log("StateMachineController created");
         }
 
         public void Initialize(Istate state)
         {
-            //Debug.Log("StateMachineController Initialize");
             CurrentState = state;
             state.Enter();
-            StateChanged?.Invoke(state);
         }
 
         public void TransitionTo(Istate nextState)
         {
-            //Debug.Log("TransitionTo " + nextState.Name);
             CurrentState.Exit();
             CurrentState = nextState;
             nextState.Enter();
-
-
-            StateChanged?.Invoke(nextState);
         }
 
         public void Update()
@@ -56,8 +47,5 @@ namespace Assets.Scripts.FSM
                 CurrentState.Update();
             }
         }
-
-
-
     }
 }
