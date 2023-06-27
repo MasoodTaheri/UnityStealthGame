@@ -6,44 +6,31 @@ namespace Assets.Scripts
 {
     public class PathController : MonoBehaviour
     {
-        public List<Transform> nodes;
-        public int CurrentNodeId = -1;
-        // Start is called before the first frame update
-        //void Start()
-        //{
-
-        //}
-
-        //// Update is called once per frame
-        //void Update()
-        //{
-
-        //}
+        [SerializeField] private List<Transform> _nodes;
+        [SerializeField] private int _currentNodeId = -1;
 
         public Vector3 GetCurrentNodePosition()
         {
-            if (CurrentNodeId == -1)
-                CurrentNodeId = 0;
-            return nodes[CurrentNodeId].position;
+            if (_currentNodeId == -1)
+                _currentNodeId = 0;
+            return _nodes[_currentNodeId].position;
         }
 
         public void NextNode()
         {
-            CurrentNodeId = ++CurrentNodeId % nodes.Count;
+            _currentNodeId = ++_currentNodeId % _nodes.Count;
         }
 
         private void OnDrawGizmos()
         {
-            foreach (Transform t in nodes)
-            {
+            foreach (Transform t in _nodes)
                 Gizmos.DrawSphere(t.position, 1);
-            }
 
-            for (int i = 1; i < nodes.Count; i++)
+            for (int i = 1; i < _nodes.Count; i++)
             {
-                Gizmos.DrawLine(nodes[i - 1].position, nodes[i].position);
+                Gizmos.DrawLine(_nodes[i - 1].position, _nodes[i].position);
             }
-            Gizmos.DrawLine(nodes[nodes.Count - 1].position, nodes[0].position);
+            Gizmos.DrawLine(_nodes[_nodes.Count - 1].position, _nodes[0].position);
         }
     }
 }

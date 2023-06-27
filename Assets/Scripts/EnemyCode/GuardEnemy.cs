@@ -11,11 +11,13 @@ namespace Assets.Scripts.EnemyCode
          private PathController _pathController;
 
 
-        public void SetPathController(PathController pathController)
+        public void Setup(Transform playerTransform, PathController pathController)
         {
+            PlayerTransform = playerTransform;
             _pathController = pathController;
             _patrolingOnNodes.pathController = _pathController;
         }
+        
         private void Awake()
         {
             StateController = new StateMachineController(this, _patrolingOnNodes);

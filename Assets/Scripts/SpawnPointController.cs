@@ -7,18 +7,18 @@ namespace Assets.Scripts
     public class SpawnPointController : MonoBehaviour
     {
         public List<Transform> SpawnPoints;
-        public List<Transform> unUsedSpawnPoints;
+        private List<Transform> _unUsedSpawnPoints;
 
-        public Transform GetSpawnPoint()
+        public Transform GetSpawnPoint()// Ensure Unique find position
         {
-            if (unUsedSpawnPoints.Count == 0)
+            if (_unUsedSpawnPoints.Count == 0)
             {
-                unUsedSpawnPoints = new List<Transform>(SpawnPoints);
+                _unUsedSpawnPoints = new List<Transform>(SpawnPoints);
             }
 
-            int RandomIndex = Random.Range(0, unUsedSpawnPoints.Count);
-            Transform spawnpoint = unUsedSpawnPoints[RandomIndex];
-            unUsedSpawnPoints.RemoveAt(RandomIndex);
+            int RandomIndex = Random.Range(0, _unUsedSpawnPoints.Count);
+            Transform spawnpoint = _unUsedSpawnPoints[RandomIndex];
+            _unUsedSpawnPoints.RemoveAt(RandomIndex);
             return spawnpoint;
         }
 

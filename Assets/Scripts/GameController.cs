@@ -11,38 +11,28 @@ namespace Assets.Scripts
     {
         public playerController PlayerControllerPrefab;
         public GuardEnemy EnemyPrefab;
-
-        public SpawnPointController spawnPointController;
+        public SpawnPointController SpawnPointController;
         public List<NoiseAlert> NoiseAlert;
         public List<PathController> PathControllers;
-        private List<Enemy> EnemyList = new List<Enemy>();
-        private playerController Player;
 
-
-
+        private List<Enemy> _enemyList = new List<Enemy>();
+        private playerController _player;
 
 
         void Start()
         {
 
-            Player = Instantiate(PlayerControllerPrefab, spawnPointController.GetSpawnPoint().position, Quaternion.identity);
-            var enemy = Instantiate(EnemyPrefab, spawnPointController.GetSpawnPoint().position, Quaternion.identity);
-            enemy.PlayerTransform = Player.transform;
-            enemy.SetPathController(PathControllers[Random.Range(0, PathControllers.Count)]);
-            EnemyList.Add(enemy);
+            _player = Instantiate(PlayerControllerPrefab, SpawnPointController.GetSpawnPoint().position, Quaternion.identity);
 
-            foreach (var enemyItem in EnemyList)
-            {
-                Player.NoiseGenerator.Enemes.Add(enemyItem);
-            }
+            var enemy = Instantiate(EnemyPrefab, SpawnPointController.GetSpawnPoint().position, Quaternion.identity);
+            enemy.Setup(_player.transform, PathControllers[Random.Range(0, PathControllers.Count)]);
+            _enemyList.Add(enemy);
 
+            _player.NoiseGenerator.Enemes = new List<Enemy>(_enemyList);
 
             foreach (var item in NoiseAlert)
             {
-                foreach (var enemyItem in EnemyList)
-                {
-                    item.Enemes.Add(enemyItem);
-                }
+                item.Enemes = new List<Enemy>(_enemyList);
             }
 
         }

@@ -7,25 +7,17 @@ namespace Assets.Scripts
 {
     public class playerController : MonoBehaviour
     {
+        public NoiseGenerator NoiseGenerator;
 
         [SerializeField] private CharacterController _characterController;
-        public NoiseGenerator NoiseGenerator;
-        [SerializeField]
-        private float _speed;
+        [SerializeField] private float _speed;
         [SerializeField] private float _Runspeed;
 
         private Vector3 movement;
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
         void Update()
         {
             movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift))//go faster but with Noise
             {
                 movement = movement * _Runspeed * Time.deltaTime;
                 NoiseGenerator.MakeNoise();
