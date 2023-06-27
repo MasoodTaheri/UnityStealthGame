@@ -1708,11 +1708,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AlertRadius: 200
   Enemes: []
-  AlertObject: {fileID: 1605087882}
-  AlertTime: 0
-  AlertDuration: 3
+  _alertObject: {fileID: 0}
+  _alertDuration: 3
   Alert: 0
-  _speed: 4
+  _growUpAlertSpeed: 4
 --- !u!4 &1385610111
 Transform:
   m_ObjectHideFlags: 0
@@ -1992,16 +1991,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f148c6d710a93694f8f0392e8dfba9c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerControllerPrefab: {fileID: 2161149990778409651, guid: e1d7bf52944cb404c952706a20d64abc, type: 3}
+  EnemyPrefab: {fileID: 2378554029761686827, guid: ae7ba4075585bc64c8e862ee3d5739d4, type: 3}
   spawnPointController: {fileID: 1310361751}
-  EnemyList: []
-  Player: {fileID: 0}
   NoiseAlert:
   - {fileID: 1385610110}
   PathControllers:
   - {fileID: 1802501057}
   - {fileID: 1940640075}
-  PlayerControllerPrefab: {fileID: 2161149990778409651, guid: e1d7bf52944cb404c952706a20d64abc, type: 3}
-  EnemyPrefab: {fileID: 2378554029761686827, guid: ae7ba4075585bc64c8e862ee3d5739d4, type: 3}
 --- !u!1 &1802501055
 GameObject:
   m_ObjectHideFlags: 0
