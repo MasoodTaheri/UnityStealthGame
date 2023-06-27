@@ -39,7 +39,7 @@ namespace Assets.Scripts.Noise
                     if (hit.collider.gameObject.CompareTag("Enemy"))
                     {
                         //Debug.Log("noise raycast hit to the Enemy");
-                        enemy.controller.TransitionTo(enemy.controller.NoiseAlertState);
+                        enemy.StateController.TransitionTo(enemy.StateController.NoiseAlertState);
                         enemy.SetAlertPosition(transform.position);
                     }
                     //else

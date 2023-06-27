@@ -27,7 +27,7 @@ namespace Assets.Scripts
 
             Player = Instantiate(PlayerControllerPrefab, spawnPointController.GetSpawnPoint().position, Quaternion.identity);
             var enemy = Instantiate(EnemyPrefab, spawnPointController.GetSpawnPoint().position, Quaternion.identity);
-            enemy.player = Player.transform;
+            enemy.PlayerTransform = Player.transform;
             enemy.SetPathController(PathControllers[Random.Range(0, PathControllers.Count)]);
             EnemyList.Add(enemy);
 

@@ -18,7 +18,7 @@ namespace Assets.Scripts.FSM
         {
 
             Debug.Log("StartState Enter");
-            _enemy.controller.TransitionTo(_enemy.controller.PartolState);
+            _enemy.StateController.TransitionTo(_enemy.StateController.PartolState);
 
         }
 

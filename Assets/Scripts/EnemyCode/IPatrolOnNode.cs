@@ -1,4 +1,5 @@
-﻿namespace Assets.Scripts.EnemyCode
+﻿
+namespace Assets.Scripts.EnemyCode
 {
     public interface IPatrolOnNode
     {

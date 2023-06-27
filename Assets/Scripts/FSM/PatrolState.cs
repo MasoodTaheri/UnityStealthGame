@@ -35,7 +35,7 @@ namespace Assets.Scripts.FSM
             _PatrolOnNodes.UpdatePatrol();
             if (_enemy.playerDetection())
             {
-                _enemy.controller.TransitionTo(_enemy.controller.ChaseState);
+                _enemy.StateController.TransitionTo(_enemy.StateController.ChaseState);
             }
         }
     }

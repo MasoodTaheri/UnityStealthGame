@@ -132,18 +132,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d001587e69858343b0a17eb71826fab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 2378554029761686824}
+  NavMeshAgent: {fileID: 2378554029761686824}
+  PlayerTransform: {fileID: 0}
   LastknownPlayerPosition: {x: 0, y: 0, z: 0}
-  player: {fileID: 0}
-  state: 
-  Def: 0
-  Blind: 0
-  PlayerDetected: 0
-  FieldOfView: {fileID: 2378554029815085529}
-  MaxViewAngleWithPlayer: 45
-  ViewDistance: 15
-  patrolingOnNodes: {fileID: 2378554029761686825}
-  _pathController: {fileID: 0}
+  _state: 
+  _def: 0
+  _blind: 0
+  _playerDetected: 0
+  _fieldOfView: {fileID: 2378554029815085529}
+  _maxViewAngleWithPlayer: 45
+  _viewDistance: 30
+  _patrolingOnNodes: {fileID: 2378554029761686825}
 --- !u!114 &2378554029761686825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,9 +156,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathController: {fileID: 0}
-  Agent: {fileID: 2378554029761686820}
+  _agent: {fileID: 2378554029761686820}
   DistanceToNode: 0
-  minDistance: 1
+  MinDistance: 1
   Speed: 5
   navMeshAgent: {fileID: 0}
 --- !u!195 &2378554029761686824
@@ -293,12 +292,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f540e24d22d860b438ff8470a1faaca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Fov: 90
+  ViewDistance: 250
+  DeltaAngle: 15
   layerMask:
     serializedVersion: 2
     m_Bits: 55
-  fov: 90
-  viewDistance: 30
-  startingAngle: 0
-  raytargetPrefab: {fileID: 0}
-  targets: []
-  deltaAngle: 15
+  _meshFilter: {fileID: 2378554029815085535}

@@ -27,12 +27,12 @@ namespace Assets.Scripts.FSM
             ChaseState = new ChaseState(enemy);
             NoiseAlertState = new NoiseAlertState(enemy);
 
-            Debug.Log("StateMachineController created");
+            //Debug.Log("StateMachineController created");
         }
 
         public void Initialize(Istate state)
         {
-            Debug.Log("StateMachineController Initialize");
+            //Debug.Log("StateMachineController Initialize");
             CurrentState = state;
             state.Enter();
             StateChanged?.Invoke(state);
@@ -40,7 +40,7 @@ namespace Assets.Scripts.FSM
 
         public void TransitionTo(Istate nextState)
         {
-            Debug.Log("TransitionTo " + nextState.Name);
+            //Debug.Log("TransitionTo " + nextState.Name);
             CurrentState.Exit();
             CurrentState = nextState;
             nextState.Enter();

@@ -21,7 +21,7 @@ namespace Assets.Scripts.FSM
         public void Enter()
         {
 
-            _enemy.navMeshAgent.destination = _enemy.AlertPosition;
+            _enemy.NavMeshAgent.destination = _enemy.AlertPosition;
         }
 
         public void Exit()
@@ -33,12 +33,12 @@ namespace Assets.Scripts.FSM
         {
             if (_enemy.playerDetection())
             {
-                _enemy.controller.TransitionTo(_enemy.controller.ChaseState);
+                _enemy.StateController.TransitionTo(_enemy.StateController.ChaseState);
             }
             DistanceToNoisePosition = Vector3.Distance(_enemy.transform.position, _enemy.AlertPosition);
             if (DistanceToNoisePosition < minDistance)
             {
-                _enemy.controller.TransitionTo(_enemy.controller.PartolState);
+                _enemy.StateController.TransitionTo(_enemy.StateController.PartolState);
             }
         }
     }

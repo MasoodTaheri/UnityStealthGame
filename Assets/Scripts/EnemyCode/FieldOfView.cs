@@ -1,68 +1,47 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 namespace Assets.Scripts.EnemyCode
 {
     public class FieldOfView : MonoBehaviour
     {
+        public float Fov = 90f;
+        public float ViewDistance = 250f;
+        public int DeltaAngle = 15;
+
 
         [SerializeField] private LayerMask layerMask;
-        private Mesh mesh;
-        public float fov = 90f;
-        public float viewDistance = 250f;
-        private Vector3 origin;
-        public float startingAngle;
-        public GameObject raytargetPrefab;
-        public List<GameObject> targets;
+        [SerializeField] private MeshFilter _meshFilter;
+
+        private Mesh _mesh;
+        private List<Vector3> _circleVerteices = new List<Vector3>();
+        private List<Vector2> _uvs = new List<Vector2>();
+        private List<int> _triangles = new List<int>();
 
         private void Awake()
         {
-            mesh = new Mesh();
-            GetComponent<MeshFilter>().mesh = mesh;
-            //fov 
-            //viewDistance
-            origin = Vector3.zero; ;// transform.position;//Vector3.zero;
-                                    //for (int i = 0; i <= 100; i++)
-                                    //{
-                                    //    var temp = Instantiate(raytargetPrefab);
-                                    //    targets.Add(temp);
-                                    //}
+            _mesh = new Mesh();
+            _meshFilter.mesh = _mesh;
         }
-
-
-
-
 
         private void LateUpdate()
         {
-
-            drawCircle();
+            _circleVerteices.Clear();
+            _uvs.Clear();
+            _triangles.Clear();
+            DrawConeView();
         }
 
-        List<Vector3> circleVerteices = new List<Vector3>();
-        List<Vector2> uvs = new List<Vector2>();
-        List<int> triangles = new List<int>();
-        public int deltaAngle = 15;
-
-        private void drawCircle()
+        private void DrawConeView()
         {
-            //foreach (var go in targets)
-            //    go.transform.position = Vector3.zero;
-            circleVerteices.Clear();
-            uvs.Clear();
-            triangles.Clear();
-
-
             float val = 3.14285f / 180f;//one degree = val radians
-            float radius = viewDistance;
+            float radius = ViewDistance;
 
 
             Vector3 center = Vector3.zero;
-            circleVerteices.Add(center);
-            uvs.Add(new Vector2(0.5f, 0.5f));
+            _circleVerteices.Add(center);
+            _uvs.Add(new Vector2(0.5f, 0.5f));
             int triangleCount = 0;
 
             float x1 = radius * Mathf.Cos(0);
@@ -71,61 +50,45 @@ namespace Assets.Scripts.EnemyCode
             Vector3 point1 = new Vector3(x1, y1, z1);
 
             point1 = LocalLineCast(point1);
-            circleVerteices.Add(point1);
+            _circleVerteices.Add(point1);
 
-            int k = 0;
-            //targets[k++].transform.position = transform.TransformPoint(point1);
+            _uvs.Add(new Vector2((x1 + radius) / 2 * radius, (y1 + radius) / 2 * radius));
 
-
-            uvs.Add(new Vector2((x1 + radius) / 2 * radius, (y1 + radius) / 2 * radius));
-
-            for (int i = 0; i < fov; i = i + deltaAngle)
+            for (int i = 0; i < Fov; i = i + DeltaAngle)
             {
-                float x2 = radius * Mathf.Cos((i + deltaAngle) * val);
+                float x2 = radius * Mathf.Cos((i + DeltaAngle) * val);
                 float y2 = 0;//
-                float z2 = radius * Mathf.Sin((i + deltaAngle) * val); //0;
+                float z2 = radius * Mathf.Sin((i + DeltaAngle) * val); //0;
 
 
                 Vector3 point2 = new Vector3(x2, y2, z2);
 
-                ////////
-                //if (Input.GetKey(KeyCode.A))
-                {
-                    point2 = LocalLineCast(point2);
+                point2 = LocalLineCast(point2);
 
-                }
 
-                //targets[k].transform.position = transform.TransformPoint(point2);
-                //transform.InverseTransformPoint(point2));
+                _circleVerteices.Add(point2);
 
-                k++;
+                _uvs.Add(new Vector2((x2 + radius) / 2 * radius, (y2 + radius) / 2 * radius));
 
-                /////////
-                circleVerteices.Add(point2);
-
-                uvs.Add(new Vector2((x2 + radius) / 2 * radius, (y2 + radius) / 2 * radius));
-
-                triangles.Add(0);
-                triangles.Add(triangleCount + 2);
-                triangles.Add(triangleCount + 1);
+                _triangles.Add(0);
+                _triangles.Add(triangleCount + 2);
+                _triangles.Add(triangleCount + 1);
 
                 triangleCount++;
                 point1 = point2;
             }
-            mesh.vertices = circleVerteices.ToArray();
-            mesh.triangles = triangles.ToArray();
-            mesh.uv = uvs.ToArray();
+            _mesh.vertices = _circleVerteices.ToArray();
+            _mesh.triangles = _triangles.ToArray();
+            _mesh.uv = _uvs.ToArray();
 
         }
 
         private Vector3 LocalLineCast(Vector3 point2)
         {
-            //Debug.DrawLine(transform.position, transform.TransformPoint(point2));
             if (Physics.Linecast(transform.position, transform.TransformPoint(point2), out RaycastHit hit))
             {
                 point2 = transform.InverseTransformPoint(hit.point);
             }
-
             return point2;
         }
     }

@@ -38,11 +38,11 @@ namespace Assets.Scripts.FSM
                 LastKnownPosition = _enemy.LastknownPlayerPosition;
             }
 
-            _enemy.navMeshAgent.destination = LastKnownPosition;
+            _enemy.NavMeshAgent.destination = LastKnownPosition;
             DistanceToLastKnownPosition = Vector3.Distance(_enemy.transform.position, LastKnownPosition);
             if (DistanceToLastKnownPosition < minDistance)
             {
-                _enemy.controller.TransitionTo(_enemy.controller.PartolState);
+                _enemy.StateController.TransitionTo(_enemy.StateController.PartolState);
             }
         }
     }

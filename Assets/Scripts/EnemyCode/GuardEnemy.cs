@@ -6,32 +6,33 @@ namespace Assets.Scripts.EnemyCode
 {
     public class GuardEnemy : Enemy
     {
-        [SerializeField] private PatrolingOnNodes patrolingOnNodes;
-        [SerializeField] private PathController _pathController;
+        [SerializeField] private PatrolingOnNodes _patrolingOnNodes;
+
+         private PathController _pathController;
 
 
         public void SetPathController(PathController pathController)
         {
             _pathController = pathController;
-            patrolingOnNodes.pathController = _pathController;
+            _patrolingOnNodes.pathController = _pathController;
         }
         private void Awake()
         {
-            controller = new StateMachineController(this, patrolingOnNodes);
-            patrolingOnNodes.navMeshAgent = navMeshAgent;
+            StateController = new StateMachineController(this, _patrolingOnNodes);
+            _patrolingOnNodes.navMeshAgent = NavMeshAgent;
 
 
         }
         private void Start()
         {
-            controller.Initialize(controller.StartState);
+            StateController.Initialize(StateController.StartState);
         }
 
 
         private void Update()
         {
             base.Update();
-            controller.Update();
+            StateController.Update();
 
             Debug.DrawRay(transform.position, transform.forward);
         }

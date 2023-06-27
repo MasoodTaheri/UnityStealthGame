@@ -1,6 +1,4 @@
 using Assets.Scripts.FSM;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,81 +6,94 @@ namespace Assets.Scripts.EnemyCode
 {
     public abstract class Enemy : MonoBehaviour
     {
-        [HideInInspector] public StateMachineController controller;
-        public NavMeshAgent navMeshAgent;
-        [HideInInspector] public Vector3 LastknownPlayerPosition;
-        public Transform player;
-        public string state;
-        //public LayerMask DetectableMask;
+        public NavMeshAgent NavMeshAgent;
+        public Transform PlayerTransform;
         public Vector3 AlertPosition { get; private set; }
-        public bool Def;
-        public bool Blind;
-        public bool PlayerDetected;
-        
+        [HideInInspector] public StateMachineController StateController;
+        [HideInInspector] public Vector3 LastknownPlayerPosition;
 
-        public FieldOfView FieldOfView;
-        public float MaxViewAngleWithPlayer;
+
         private float _currentViewAngleWithPlayer;
 
-        public float ViewDistance;
+        [SerializeField] private string _state;
+        [SerializeField] private bool _def;
+        [SerializeField] private bool _blind;
+        [SerializeField] private bool _playerDetected;
+        [SerializeField] private FieldOfView _fieldOfView;
+        [SerializeField] private float _maxViewAngleWithPlayer;
+        [SerializeField] private float _viewDistance;
 
-        // Start is called before the first frame update
+
         private void Start()
         {
-            FieldOfView.fov = MaxViewAngleWithPlayer * 2;
-            FieldOfView.viewDistance = ViewDistance * 2;
+            _fieldOfView.Fov = _maxViewAngleWithPlayer * 2;
+            _fieldOfView.ViewDistance = _viewDistance * 2;
         }
 
-        // Update is called once per frame
+
         public void Update()
         {
-            state = controller.CurrentState.Name;
+            _state = StateController.CurrentState.Name;
         }
 
-        public bool playerDetection()
+        public bool playerDetection()// eye of enemy
         {
-            if (player == null)
+            _fieldOfView.ViewDistance = _viewDistance * 2;
+
+            if (PlayerTransform == null)
                 return false;
 
+            if (_blind)
+                return false;            
 
+            if (!IsInConeAngle())
+                return false;       
 
-            if (Blind)
-                return false;
-            FieldOfView.viewDistance = ViewDistance * 2;
+            if (IsInDirectSight())            
+                return true;
+            
 
-            Quaternion rotationToB = Quaternion.LookRotation(player.position - transform.position);
-            _currentViewAngleWithPlayer = Quaternion.Angle(transform.rotation, rotationToB);
-
-            if (_currentViewAngleWithPlayer > MaxViewAngleWithPlayer)
-            {
-                PlayerDetected = false;
-                return false;
-            }
-
-
-            Ray ray = new Ray(transform.position, player.transform.position - transform.position);
-            Debug.DrawRay(ray.origin, ray.direction * 10);
-            if (Physics.Raycast(ray, out RaycastHit hit, ViewDistance))
-            {
-                if (hit.collider.gameObject.CompareTag("Player"))
-                {
-                    LastknownPlayerPosition = hit.point;
-                    //Debug.Log("player viewed");
-                    PlayerDetected = true;
-                    return true;
-                }
-
-            }
             LastknownPlayerPosition = Vector3.zero;
-            PlayerDetected = false;
+            _playerDetected = false;
             return false;
         }
 
         public void SetAlertPosition(Vector3 position)
         {
-            if (Def)
+            if (_def)
                 return;
             AlertPosition = position;
+
+        }
+
+        public bool IsInConeAngle()
+        {
+            Quaternion rotationToB = Quaternion.LookRotation(PlayerTransform.position - transform.position);
+            _currentViewAngleWithPlayer = Quaternion.Angle(transform.rotation, rotationToB);
+
+            if (_currentViewAngleWithPlayer > _maxViewAngleWithPlayer)
+            {
+                _playerDetected = false;
+                return false;
+            }
+            else return true;
+        }
+
+        public bool IsInDirectSight()
+        {
+            Ray ray = new Ray(transform.position, PlayerTransform.transform.position - transform.position);
+            Debug.DrawRay(ray.origin, ray.direction * 10);
+            if (Physics.Raycast(ray, out RaycastHit hit, _viewDistance))
+            {
+                if (hit.collider.gameObject.CompareTag("Player"))
+                {
+                    LastknownPlayerPosition = hit.point;
+                    _playerDetected = true;
+                    return true;
+                }
+            }
+            return false;   
+
 
         }
     }
