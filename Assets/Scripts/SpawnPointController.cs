@@ -7,7 +7,7 @@ namespace Assets.Scripts
     public class SpawnPointController : MonoBehaviour
     {
         public List<Transform> SpawnPoints;
-        private List<Transform> _unUsedSpawnPoints;
+        private List<Transform> _unUsedSpawnPoints=new List<Transform>();
 
         public Transform GetSpawnPoint()// Ensure Unique find position
         {

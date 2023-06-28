@@ -17,8 +17,6 @@ namespace Assets.Scripts.FSM
         public NoiseAlertState NoiseAlertState;
         [SerializeField] public Istate CurrentState { get; private set; }
 
-
-
         public StateMachineController(Enemy enemy, PatrolingOnNodes patrolingOnNodes)
         {
             PartolState = new PatrolState(enemy, patrolingOnNodes);

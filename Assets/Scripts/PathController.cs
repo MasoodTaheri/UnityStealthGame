@@ -7,7 +7,7 @@ namespace Assets.Scripts
     public class PathController : MonoBehaviour
     {
         [SerializeField] private List<Transform> _nodes;
-        [SerializeField] private int _currentNodeId = -1;
+        private int _currentNodeId = -1;
 
         public Vector3 GetCurrentNodePosition()
         {

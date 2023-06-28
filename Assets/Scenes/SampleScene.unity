@@ -1631,7 +1631,6 @@ MonoBehaviour:
   - {fileID: 1942512850}
   - {fileID: 1364462082}
   - {fileID: 528118993}
-  unUsedSpawnPoints: []
 --- !u!1 &1364462081
 GameObject:
   m_ObjectHideFlags: 0
@@ -2055,7 +2054,6 @@ MonoBehaviour:
   - {fileID: 7141234}
   - {fileID: 146402382}
   - {fileID: 1831976876}
-  _currentNodeId: -1
 --- !u!1 &1829922638
 GameObject:
   m_ObjectHideFlags: 0
@@ -2281,7 +2279,6 @@ MonoBehaviour:
   - {fileID: 581207444}
   - {fileID: 865555494}
   - {fileID: 1194720406}
-  _currentNodeId: -1
 --- !u!4 &1940640076
 Transform:
   m_ObjectHideFlags: 0
